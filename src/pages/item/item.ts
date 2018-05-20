@@ -1,25 +1,21 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the ItemPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
-  selector: 'page-item',
-  templateUrl: 'item.html',
+    selector: 'page-item',
+    templateUrl: 'item.html',
 })
 export class ItemPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    banca: any
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ItemPage');
-  }
+    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    }
+
+    ionViewDidLoad() {
+        this.banca = window.localStorage.getItem("banca");
+        console.log('ionViewDidLoad ItemPage');
+    }
 
 }

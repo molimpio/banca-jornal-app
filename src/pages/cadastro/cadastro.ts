@@ -97,9 +97,10 @@ export class CadastroPage {
         this.presentLoading("Aguarde...");
         const data = this.cadastroForm.value;
         this.cadastroProvider.salvar(data)
-            .then(response => {
+            .then((response:any) => {
                 setTimeout(() => {
                     window.localStorage.setItem("cadastrado", "true");
+                    window.localStorage.setItem("banca", JSON.stringify(response));
                     this.loader.dismiss();
                     this.presentAlert();
                 }, 2000)
