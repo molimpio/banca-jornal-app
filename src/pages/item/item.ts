@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Item } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
+import { CategoriaProvider } from '../../providers/categoria/categoria';
+import { UnidadeProvider } from '../../providers/unidade/unidade';
+import { ItemProvider } from '../../providers/item/item';
+import { ItemModalPage } from '../item-modal/item-modal';
+import { ModalController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -8,14 +14,39 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ItemPage {
 
-    banca: any
+    items: Item[] = [];
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(private navCtrl: NavController,
+        private navParams: NavParams,
+        public modalCtrl: ModalController,
+        private toastCtrl: ToastController,
+        private itemProvider: ItemProvider) {
     }
 
     ionViewDidLoad() {
-        this.banca = window.localStorage.getItem("banca");
-        console.log('ionViewDidLoad ItemPage');
+        this.itemProvider.getItens()
+            .then((response: any) => this.items = response)
+            .catch(error => this.presentToast("Erro ao buscar os itens!"))
     }
 
+    private presentToast(mensagem) {
+        let toast = this.toastCtrl.create({
+            message: mensagem,
+            duration: 5000
+        });
+        toast.present();
+    }
+
+    adicionar() {
+        let modal = this.modalCtrl.create(ItemModalPage);
+        modal.present();
+    }
+
+    remover() {
+        console.log("REMOVER")
+    }
+
+    editar() {
+        console.log("EDITAR")
+    }
 }

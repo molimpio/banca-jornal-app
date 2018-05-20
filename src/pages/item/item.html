@@ -1,9 +1,56 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Banca APP | Itens</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Banca APP | Itens</ion-title>
+        <ion-buttons end>
+            <button (click)="adicionar()" ion-button icon-only>
+                <ion-icon name="add-circle"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    {{ banca | json}}
+
+    <ion-card *ngIf="items.length == 0">
+        <ion-card-header>
+            <strong>Não existe itens cadastrados !</strong>
+        </ion-card-header>
+        <ion-card-content>
+            Você ainda não tem itens cadastrados, para começar clique no botão "+" na barra superior do aplicativo.
+        </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="items.length > 0">
+        <ion-card *ngFor="let item of items">
+
+            <ion-card-content>
+                <ion-row>
+                    <ion-col col-8>
+                        <strong>Código: </strong>{{ item.codigo }}
+                        <br/>
+                        <strong>Descrição: </strong>{{ item.descricao }}
+                        <br/>
+                        <strong>Categoria: </strong>{{ item.categoria.nome }}
+                        <br/>
+                        <strong>Unidade: </strong>{{ item.unidade.nome }}
+                        <br/>
+                        <strong>Quantidade: </strong>{{ item.qtde }}
+                        <br/>
+                    </ion-col>
+                    <ion-col col-4 class="align-right">
+                        <button ion-button item-end (click)="editar()">
+                            <ion-icon name="create"></ion-icon>
+                            <div>&nbsp;&nbsp;&nbsp;Editar</div>
+                        </button>
+
+                        <button ion-button item-end (click)="remover()">
+                            <ion-icon name="trash"></ion-icon>
+                            <div>&nbsp;&nbsp;&nbsp;Excluir</div>
+                        </button>
+                    </ion-col>
+                </ion-row>
+
+            </ion-card-content>
+        </ion-card>
+    </div>
 </ion-content>
