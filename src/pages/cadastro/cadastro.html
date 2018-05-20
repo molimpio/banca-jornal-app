@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Banca APP | Cadastro</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="cadastroForm" novalidate>
+        <ion-list>
+            <ion-item>
+                <ion-label floating>Nome da banca</ion-label>
+                <ion-input type="text" formControlName="nome"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Email de contato</ion-label>
+                <ion-input type="email" formControlName="email"></ion-input>
+            </ion-item>
+
+            <div style="width: 80%">
+                <ion-item class="no-border-item">
+                    <ion-label floating>CEP</ion-label>
+                    <ion-input type="number" formControlName="cep" (keyup)="validarLength()"></ion-input>
+                </ion-item>
+            </div>
+
+            <span class="span-cep">Somente números</span>
+
+            <button ion-button class="button-align" (click)="buscarLogradouro()">
+                <ion-icon name="search"></ion-icon>
+            </button>
+
+            <ion-item>
+                <ion-label floating>Logradouro</ion-label>
+                <ion-input type="text" formControlName="logradouro"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Bairro</ion-label>
+                <ion-input type="text" formControlName="bairro"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Localidade</ion-label>
+                <ion-input type="text" formControlName="localidade"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>UF</ion-label>
+                <ion-input type="text" formControlName="uf"></ion-input>
+            </ion-item>
+        </ion-list>
+        <br/>
+        <button ion-button outline block [disabled]="cadastroForm.invalid" (click)="cadastrar()">Cadastrar</button>
+    </form>
+</ion-content>
