@@ -61,13 +61,12 @@ export class ItemModalPage {
     }
 
     lerQrCode() {
-        this.barcodeScanner.scan().then(barcodeData => {
-            console.log('Barcode data', barcodeData);
-            this.texto = barcodeData;
-           }).catch(err => {
-               console.log('Error', err);
-               this.texto = err;
-           });
+        this.barcodeScanner.scan()
+            .then(barcodeData => {
+                this.itemForm.patchValue(JSON.parse(barcodeData.text))
+                console.log("DADOS LIDOS ", barcodeData)
+            })
+            .catch(err => console.log('Error', err));
     }
 
     voltar() {

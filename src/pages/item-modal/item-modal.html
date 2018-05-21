@@ -23,7 +23,7 @@
             <ion-item>
                 <ion-label>Selecione a categoria</ion-label>
                 <ion-select interface="popover" formControlName="categoria">
-                    <ion-option *ngFor="let c of categorias">
+                    <ion-option value="{{c.id}}" *ngFor="let c of categorias">
                         {{c.nome }}
                     </ion-option>
                 </ion-select>
@@ -33,7 +33,7 @@
             <ion-item>
                 <ion-label>Selecione a unidade</ion-label>
                 <ion-select interface="popover" formControlName="unidade">
-                    <ion-option *ngFor="let u of unidades">
+                    <ion-option value="{{u.id}}" *ngFor="let u of unidades">
                         {{u.nome }}
                     </ion-option>
                 </ion-select>
