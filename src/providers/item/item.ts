@@ -16,5 +16,17 @@ export class ItemProvider {
         });   
     }
     
+    salvar(data) {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${api.url}/items`, data)
+                .subscribe(response => {
+                    resolve(response);
+                },
+                (error) => {
+                    reject(error)
+                }
+            )
+        });      
+    }
 
 }

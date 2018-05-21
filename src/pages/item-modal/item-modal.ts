@@ -6,6 +6,9 @@ import { Categoria } from '../../models/item.model';
 import { Unidade } from '../../models/unidade.model';
 import { CategoriaProvider } from '../../providers/categoria/categoria';
 import { UnidadeProvider } from '../../providers/unidade/unidade';
+import { ItemProvider } from '../../providers/item/item';
+import { AlertController } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -18,11 +21,14 @@ export class ItemModalPage {
     itemForm: FormGroup;
     categorias: Array<Categoria> = [];
     unidades: Array<Unidade> = [];
-    texto: any;
+    loader: any;
 
     constructor(public navCtrl: NavController,
         public navParams: NavParams,
+        private alertCtrl: AlertController,
+        private loadingCtrl: LoadingController,
         private categoriaProvider: CategoriaProvider,
+        private itemProvider: ItemProvider,
         private fb: FormBuilder,
         private barcodeScanner: BarcodeScanner,
         private unidadeProvider: UnidadeProvider) {
@@ -32,7 +38,6 @@ export class ItemModalPage {
     ionViewDidLoad() {
         this.categoriaProvider.getCategorias().subscribe(categorias => this.categorias = categorias);
         this.unidadeProvider.getUnidades().subscribe(unidades => this.unidades = unidades);
-        console.log('DADOS ', this.unidades, this.categorias);
     }
 
     private startForm() {
@@ -41,23 +46,25 @@ export class ItemModalPage {
             categoria: this.fb.control('', [Validators.required]),
             unidade: this.fb.control('', [Validators.required]),
             descricao: this.fb.control('', [Validators.required]),
-            quantidade: this.fb.control('', [Validators.required])
+            qtde: this.fb.control('', [Validators.required])
         });
     }
 
     cadastrarItem() {
-        /**
-         * {
-	"codigo": "001",
-	"categoria" : {"id" : 1},
-	"unidade" : {"id" : 1},
-	"banca" : {"id" : 1},
-	"descricao": "teste de insert de item",
-	"qtde": 10
-}
-         */
+        this.presentLoading("Aguarde...");
+        this.itemForm.value.categoria = {id: this.itemForm.value.categoria};
+        this.itemForm.value.unidade = {id: this.itemForm.value.unidade};
+        
         console.log("DADOS FORM ", this.itemForm.value);
-        //this.navCtrl.pop();
+        this.itemProvider.salvar(this.itemForm.value)
+            .then(response => {
+                this.loader.dismiss();
+                this.presentAlert();
+            })
+            .catch(error => {
+                console.log("ERROR ",error)
+                this.loader.dismiss();
+            })        
     }
 
     lerQrCode() {
@@ -71,6 +78,29 @@ export class ItemModalPage {
 
     voltar() {
         this.navCtrl.pop();
+    }
+
+    private presentAlert() {
+        let alert = this.alertCtrl.create({
+            title: 'Parabéns',
+            subTitle: 'Item cadastrado com sucesso!',
+            buttons: [
+                {
+                    text: 'OK',
+                    handler: () => {
+                        this.voltar();
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
+    private presentLoading(mensagem) {
+        this.loader = this.loadingCtrl.create({
+            content: mensagem
+        });
+        this.loader.present();
     }
 
 }
