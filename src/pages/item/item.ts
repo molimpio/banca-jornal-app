@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Item } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
-import {Platform} from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { CategoriaProvider } from '../../providers/categoria/categoria';
 import { UnidadeProvider } from '../../providers/unidade/unidade';
 import { ItemProvider } from '../../providers/item/item';
 import { ItemModalPage } from '../item-modal/item-modal';
 import { ModalController } from 'ionic-angular';
+import { HelpProvider } from '../../providers/help/help';
 
 @IonicPage()
 @Component({
@@ -21,22 +22,24 @@ export class ItemPage {
         private platform: Platform,
         private navParams: NavParams,
         private modalCtrl: ModalController,
-        private toastCtrl: ToastController,
+        private helpProvider: HelpProvider,
         private itemProvider: ItemProvider) {
+
+        this.buscarItens();
+        this.itemProvider.atualizarListaItensEv.subscribe(() => this.buscarItens());
     }
 
-    ionViewDidLoad() {
+    buscarItens() {
+        this.helpProvider.presentLoading("Aguarde, buscando itens!");
         this.itemProvider.getItens()
-            .then((response: any) => this.items = response)
-            .catch(error => this.presentToast("Erro ao buscar os itens!"))
-    }
-
-    private presentToast(mensagem) {
-        let toast = this.toastCtrl.create({
-            message: mensagem,
-            duration: 5000
-        });
-        toast.present();
+            .then((response: any) => {
+                this.items = response;
+                this.helpProvider.closeLoading();
+            })
+            .catch(error => {
+                this.helpProvider.closeLoading();
+                this.helpProvider.presentToast("Erro ao buscar os itens!");
+            })
     }
 
     adicionar() {

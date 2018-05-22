@@ -16,6 +16,7 @@ import { CadastroProvider } from '../providers/cadastro/cadastro';
 import { CategoriaProvider } from '../providers/categoria/categoria';
 import { UnidadeProvider } from '../providers/unidade/unidade';
 import { ItemProvider } from '../providers/item/item';
+import { HelpProvider } from '../providers/help/help';
 
 @NgModule({
     declarations: [
@@ -40,9 +41,10 @@ import { ItemProvider } from '../providers/item/item';
         SplashScreen,
         { provide: ErrorHandler, useClass: IonicErrorHandler },
         CadastroProvider,
-    CategoriaProvider,
-    UnidadeProvider,
-    ItemProvider
+        CategoriaProvider,
+        UnidadeProvider,
+        ItemProvider,
+        HelpProvider
     ]
 })
 export class AppModule { }

@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { api } from '../api';
 
 @Injectable()
 export class ItemProvider {
+
+    atualizarListaItensEv = new EventEmitter();
 
     constructor(private http: HttpClient) { }
 
@@ -29,4 +31,7 @@ export class ItemProvider {
         });      
     }
 
+    atualizarListaItens() {
+        this.atualizarListaItensEv.emit();
+    }
 }

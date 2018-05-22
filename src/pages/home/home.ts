@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { CadastroPage } from '../cadastro/cadastro';
-import { ToastController } from 'ionic-angular';
 import { CadastroProvider } from '../../providers/cadastro/cadastro';
 import { ItemPage } from '../item/item';
+import { HelpProvider } from '../../providers/help/help';
 
 @Component({
     selector: 'page-home',
@@ -13,7 +13,7 @@ import { ItemPage } from '../item/item';
 export class HomePage {
 
     constructor(private navCtrl: NavController,
-        private toastCtrl: ToastController,
+        private helpProvider: HelpProvider,
         private cadastroProvider: CadastroProvider,
         private alertCtrl: AlertController) {
 
@@ -51,19 +51,24 @@ export class HomePage {
 
     buscarCadastro(data) {        
         if (this.validateEmail(data.email)) {
+            this.helpProvider.presentLoading("Aguarde...");
             this.cadastroProvider.getDadosByEmail(data)
                 .then(response => {
+                    this.helpProvider.closeLoading();
                     if (response) {
                         window.localStorage.setItem("cadastrado", "true");
                         window.localStorage.setItem("banca", JSON.stringify(response));
                         this.navCtrl.setRoot(ItemPage);                        
                     } else {
-                        this.presentToast("Cadastro não encontrado!");
+                        this.helpProvider.presentToast("Cadastro não encontrado!");
                     }
                 })
-                .catch(error => console.log("error ", error))
+                .catch(error => {
+                    this.helpProvider.closeLoading();
+                    this.helpProvider.presentToast("Erro ao procurar cadastro!");
+                })
         } else {
-            this.presentToast("Email inválido !");
+            this.helpProvider.presentToast("Email inválido !");
         }
     }
 
@@ -72,13 +77,4 @@ export class HomePage {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
-
-    private presentToast(mensagem) {
-        let toast = this.toastCtrl.create({
-            message: mensagem,
-            duration: 5000
-        });
-        toast.present();
-    }
-
 }

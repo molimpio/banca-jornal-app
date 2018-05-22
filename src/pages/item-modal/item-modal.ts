@@ -8,7 +8,7 @@ import { CategoriaProvider } from '../../providers/categoria/categoria';
 import { UnidadeProvider } from '../../providers/unidade/unidade';
 import { ItemProvider } from '../../providers/item/item';
 import { AlertController } from 'ionic-angular';
-import { LoadingController } from 'ionic-angular';
+import { HelpProvider } from '../../providers/help/help';
 
 @IonicPage()
 @Component({
@@ -21,12 +21,11 @@ export class ItemModalPage {
     itemForm: FormGroup;
     categorias: Array<Categoria> = [];
     unidades: Array<Unidade> = [];
-    loader: any;
 
     constructor(public navCtrl: NavController,
         public navParams: NavParams,
         private alertCtrl: AlertController,
-        private loadingCtrl: LoadingController,
+        private helpProvider: HelpProvider,
         private categoriaProvider: CategoriaProvider,
         private itemProvider: ItemProvider,
         private fb: FormBuilder,
@@ -51,32 +50,29 @@ export class ItemModalPage {
     }
 
     cadastrarItem() {
-        this.presentLoading("Aguarde...");
-        this.itemForm.value.categoria = {id: this.itemForm.value.categoria};
-        this.itemForm.value.unidade = {id: this.itemForm.value.unidade};
-        
-        console.log("DADOS FORM ", this.itemForm.value);
+        this.helpProvider.presentLoading("Aguarde...");
+        this.itemForm.value.categoria = { id: this.itemForm.value.categoria };
+        this.itemForm.value.unidade = { id: this.itemForm.value.unidade };
+
         this.itemProvider.salvar(this.itemForm.value)
             .then(response => {
-                this.loader.dismiss();
+                this.helpProvider.loader.dismiss();
                 this.presentAlert();
             })
             .catch(error => {
-                console.log("ERROR ",error)
-                this.loader.dismiss();
-            })        
+                this.helpProvider.presentToast("Erro ao cadastrar item!");
+                this.helpProvider.loader.dismiss();
+            })
     }
 
     lerQrCode() {
         this.barcodeScanner.scan()
-            .then(barcodeData => {
-                this.itemForm.patchValue(JSON.parse(barcodeData.text))
-                console.log("DADOS LIDOS ", barcodeData)
-            })
-            .catch(err => console.log('Error', err));
+            .then(barcodeData => this.itemForm.patchValue(JSON.parse(barcodeData.text)))
+            .catch(err => this.helpProvider.presentToast("Erro ao ler qrcode!"));
     }
 
     voltar() {
+        this.itemProvider.atualizarListaItens();
         this.navCtrl.pop();
     }
 
@@ -88,19 +84,12 @@ export class ItemModalPage {
                 {
                     text: 'OK',
                     handler: () => {
-                        this.voltar();
+                        this.itemForm.reset();
                     }
                 }
             ]
         });
         alert.present();
-    }
-
-    private presentLoading(mensagem) {
-        this.loader = this.loadingCtrl.create({
-            content: mensagem
-        });
-        this.loader.present();
     }
 
 }
