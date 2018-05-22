@@ -31,6 +31,32 @@ export class ItemProvider {
         });      
     }
 
+    atualizar(data, id) {
+        return new Promise((resolve, reject) => {
+            this.http.put(`${api.url}/items/${id}`, data)
+                .subscribe(response => {
+                    resolve(response);
+                },
+                (error) => {
+                    reject(error)
+                }
+            )
+        });      
+    }
+
+    excluir(id) {
+        return new Promise((resolve, reject) => {
+            this.http.delete(`${api.url}/items/${id}`)
+                .subscribe(response => {
+                    resolve(response);
+                },
+                (error) => {
+                    reject(error)
+                }
+            )
+        });      
+    }
+
     atualizarListaItens() {
         this.atualizarListaItensEv.emit();
     }

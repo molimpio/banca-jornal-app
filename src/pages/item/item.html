@@ -52,13 +52,13 @@
                 </ion-row>
                 <ion-row>
                     <ion-col offset-2 col-5>
-                        <button ion-button (click)="editar()">
+                        <button ion-button (click)="editar(item)">
                             <ion-icon name="create"></ion-icon>
                             <div>&nbsp;&nbsp;&nbsp;Editar</div>
                         </button>
                     </ion-col>
                     <ion-col col-5>
-                        <button ion-button (click)="remover()">
+                        <button ion-button (click)="remover(item.id)">
                             <ion-icon name="trash"></ion-icon>
                             <div>&nbsp;&nbsp;&nbsp;Excluir</div>
                         </button>

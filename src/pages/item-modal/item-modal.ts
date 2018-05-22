@@ -54,7 +54,11 @@ export class ItemModalPage {
         this.itemForm.value.categoria = { id: this.itemForm.value.categoria };
         this.itemForm.value.unidade = { id: this.itemForm.value.unidade };
 
-        this.itemProvider.salvar(this.itemForm.value)
+        const data = this.itemForm.value;
+        const banca = JSON.parse(window.localStorage.getItem("banca"));
+        data.banca = {id: banca.id};
+
+        this.itemProvider.salvar(data)
             .then(response => {
                 this.helpProvider.loader.dismiss();
                 this.presentAlert();

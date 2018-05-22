@@ -47,12 +47,23 @@ export class ItemPage {
         modal.present();
     }
 
-    remover() {
-        console.log("REMOVER")
+    remover(id) {
+        console.log("REMOVER ", id);
+        // passar o id do item a ser removido
     }
 
-    editar() {
-        console.log("EDITAR")
+    editar(item) {
+        console.log("EDITAR ", item);
+        /**
+         * {
+	"codigo": "222",
+	"categoria" : {"id" : 1},
+	"unidade" : {"id" : 1},
+	"banca" : {"id" : 1},
+	"descricao": "teste de update de item22222",
+	"qtde": 100222222
+}
+         */
     }
 
     sair() {
