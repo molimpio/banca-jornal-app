@@ -32,4 +32,17 @@ export class CadastroProvider {
             )
         });      
     }
+
+    getDadosByEmail(email) {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${api.url}/bancas/email`, email)
+                .subscribe(response => {
+                    resolve(response);
+                },
+                (error) => {
+                    reject(error)
+                }
+            )
+        });    
+    }
 }

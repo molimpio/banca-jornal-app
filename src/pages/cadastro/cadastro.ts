@@ -54,7 +54,7 @@ export class CadastroPage {
                 {
                     text: 'OK',
                     handler: () => {
-                        this.navCtrl.push(ItemPage);
+                        this.navCtrl.setRoot(ItemPage);
                     }
                 }
             ]
