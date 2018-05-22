@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Banca APP | Cadastrar Item</ion-title>
+        <ion-title>Cadastrar Item</ion-title>
         <ion-buttons end>
             <button (click)="lerQrCode()" ion-button icon-only>
                 Ler qrcode&nbsp;&nbsp;&nbsp;
@@ -11,7 +11,6 @@
 </ion-header>
 
 <ion-content padding>
-    {{ texto | json}}
     <form [formGroup]="itemForm" novalidate>
         <ion-list>
             <ion-item>
@@ -54,7 +53,8 @@
     </form>
 
     <br/>
-    <button ion-button outline block (click)="cadastrarItem()">Cadastrar Item</button>
+    <button ion-button outline block (click)="cadastrarItem()"
+        [disabled]="itemForm.invalid">Cadastrar Item</button>
     <br/>
     <button ion-button outline block (click)="voltar()">Voltar</button>
 </ion-content>
