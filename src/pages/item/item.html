@@ -25,32 +25,55 @@
 
             <ion-card-content>
                 <ion-row>
-                    <ion-col col-8>
-                        <strong>Código: </strong>{{ item.codigo }}
-                        <br/>
-                        <strong>Descrição: </strong>{{ item.descricao }}
-                        <br/>
-                        <strong>Categoria: </strong>{{ item.categoria.nome }}
-                        <br/>
-                        <strong>Unidade: </strong>{{ item.unidade.nome }}
-                        <br/>
-                        <strong>Quantidade: </strong>{{ item.qtde }}
-                        <br/>
+                    <ion-col col-12>
+                        <ion-row>
+                            <ion-col col-12>
+                                <strong>Descrição: </strong>{{ item.descricao }}
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col col-6>
+                                <strong>Código: </strong>{{ item.codigo }}
+                            </ion-col>
+                            <ion-col col-6>
+                                <strong>Categoria: </strong>{{ item.categoria.nome }}
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-row>
+                            <ion-col col-6>
+                                <strong>Unidade: </strong>{{ item.unidade.nome }}
+                            </ion-col>
+                            <ion-col col-6>
+                                <strong>Quantidade: </strong>{{ item.qtde }}
+                            </ion-col>
+                        </ion-row>
                     </ion-col>
-                    <ion-col col-4 class="align-right">
-                        <button ion-button item-end (click)="editar()">
+                </ion-row>
+                <ion-row>
+                    <ion-col offset-2 col-5>
+                        <button ion-button (click)="editar()">
                             <ion-icon name="create"></ion-icon>
                             <div>&nbsp;&nbsp;&nbsp;Editar</div>
                         </button>
-
-                        <button ion-button item-end (click)="remover()">
+                    </ion-col>
+                    <ion-col col-5>
+                        <button ion-button (click)="remover()">
                             <ion-icon name="trash"></ion-icon>
                             <div>&nbsp;&nbsp;&nbsp;Excluir</div>
                         </button>
                     </ion-col>
                 </ion-row>
-
             </ion-card-content>
         </ion-card>
     </div>
 </ion-content>
+
+<ion-footer>
+    <ion-toolbar text-center>
+        <button ion-button block (click)="sair()">
+            Fechar aplicativo&nbsp;&nbsp;&nbsp;
+            <ion-icon name="exit"></ion-icon>
+        </button>
+    </ion-toolbar>
+</ion-footer>

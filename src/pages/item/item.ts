@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Item } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import {Platform} from 'ionic-angular';
 import { CategoriaProvider } from '../../providers/categoria/categoria';
 import { UnidadeProvider } from '../../providers/unidade/unidade';
 import { ItemProvider } from '../../providers/item/item';
@@ -17,8 +18,9 @@ export class ItemPage {
     items: Item[] = [];
 
     constructor(private navCtrl: NavController,
+        private platform: Platform,
         private navParams: NavParams,
-        public modalCtrl: ModalController,
+        private modalCtrl: ModalController,
         private toastCtrl: ToastController,
         private itemProvider: ItemProvider) {
     }
@@ -48,5 +50,9 @@ export class ItemPage {
 
     editar() {
         console.log("EDITAR")
+    }
+
+    sair() {
+        this.platform.exitApp();
     }
 }
