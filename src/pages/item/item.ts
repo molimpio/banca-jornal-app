@@ -86,20 +86,6 @@ export class ItemPage {
             })
     }
 
-    editar(item) {
-        console.log("EDITAR ", item);
-        /**
-         * {
-	"codigo": "222",
-	"categoria" : {"id" : 1},
-	"unidade" : {"id" : 1},
-	"banca" : {"id" : 1},
-	"descricao": "teste de update de item22222",
-	"qtde": 100222222
-}
-         */
-    }
-
     sair() {
         this.platform.exitApp();
     }
