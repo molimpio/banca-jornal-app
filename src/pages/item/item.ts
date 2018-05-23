@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Item } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Item, AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import { CategoriaProvider } from '../../providers/categoria/categoria';
@@ -17,12 +17,14 @@ import { HelpProvider } from '../../providers/help/help';
 export class ItemPage {
 
     items: Item[] = [];
+    removerID: any;
 
     constructor(private navCtrl: NavController,
         private platform: Platform,
         private navParams: NavParams,
         private modalCtrl: ModalController,
         private helpProvider: HelpProvider,
+        private alertCtrl: AlertController,
         private itemProvider: ItemProvider) {
 
         this.buscarItens();
@@ -48,8 +50,40 @@ export class ItemPage {
     }
 
     remover(id) {
-        console.log("REMOVER ", id);
-        // passar o id do item a ser removido
+        this.removerID = id;
+        let confirm = this.alertCtrl.create({
+            title: 'Remover',
+            message: 'Deseja remover o item ?',
+            buttons: [
+                {
+                    text: 'Cancelar',
+                    handler: () => {}
+                },
+                {
+                    text: 'Sim',
+                    handler: () => {                        
+                        this.removerItem();
+                    }
+                }
+            ]
+        });
+        confirm.present();
+    }
+
+    removerItem() {
+        this.helpProvider.presentLoading("Aguarde...");
+        this.itemProvider.excluir(this.removerID)
+            .then(() => {
+                this.itemProvider.getItens().then((items: any) => {
+                    this.items = items;
+                    this.helpProvider.closeLoading();
+                    this.helpProvider.presentToast("Item removido com sucesso!");
+                });
+            })
+            .catch(error => {
+                this.helpProvider.closeLoading();
+                this.helpProvider.presentToast("Erro ao remover item");
+            })
     }
 
     editar(item) {
